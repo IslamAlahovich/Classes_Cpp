@@ -17,6 +17,11 @@ private:
 public:
 	Add(Expression* sumd1, Expression* sumd2): sumd1_ptr(sumd1), sumd2_ptr(sumd2)
 	{}
+	~Add()
+	{
+		delete sumd1_ptr;
+		delete sumd2_ptr;
+	}
 	Expression* diff()
 	{
 		Add* diff_add = new Add(sumd1_ptr->diff(), sumd2_ptr->diff());
@@ -38,6 +43,11 @@ private:
 public:
 	Sub(Expression* sumd1, Expression* sumd2) : sumd1_ptr(sumd1), sumd2_ptr(sumd2)
 	{}
+	~Sub()
+	{
+		delete sumd1_ptr;
+		delete sumd2_ptr;
+	}
 	Expression* diff()
 	{
 		Sub* diff_add = new Sub(sumd1_ptr->diff(), sumd2_ptr->diff());
@@ -92,11 +102,15 @@ int main()
 	Expression* e = new Add(new Number(133), new Variable('x'));
 	Expression* de = e->diff();
 	de->print();
+	delete e;
+	delete de;
 	cout << "\n";
 
 	Expression* s = new Sub(new Variable('y'), new Number(323));
 	Expression* ds = s->diff();
 	ds->print();
+	delete s;
+	delete ds;
 	cout << "\n";
 
 	return 0;
