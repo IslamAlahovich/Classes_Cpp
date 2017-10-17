@@ -1,13 +1,13 @@
-// P4.cpp: определяет точку входа для консольного приложения.
-//
 #include "stdafx.h"
-#include "matplotlibcpp.h"
 #include <iostream>
+#include "discpp.h"
 using namespace std;
-
 int main()
 {
-	cout << "Hello pidor" << endl;
+	Dislin g;
+	g.disini();
+	g.messag("This is a test", 100, 100);
+	g.disfin();
 
 	return 0;
 }
