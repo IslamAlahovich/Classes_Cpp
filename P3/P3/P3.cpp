@@ -15,7 +15,7 @@ private:
 	Expression* sumd1_ptr;
 	Expression* sumd2_ptr;
 public:
-	Add(Expression* sumd1, Expression* sumd2): sumd1_ptr(sumd1), sumd2_ptr(sumd2)
+	Add(Expression* sumd1, Expression* sumd2) : sumd1_ptr(sumd1), sumd2_ptr(sumd2)
 	{}
 	~Add()
 	{
@@ -50,8 +50,8 @@ public:
 	}
 	Expression* diff()
 	{
-		Sub* diff_add = new Sub(sumd1_ptr->diff(), sumd2_ptr->diff());
-		return diff_add;
+		Sub* diff_sub = new Sub(sumd1_ptr->diff(), sumd2_ptr->diff());
+		return diff_sub;
 	}
 	void print()
 	{
@@ -61,12 +61,64 @@ public:
 	}
 };
 
+class Mul : public Expression
+{
+private:
+	Expression* sumd1_ptr;
+	Expression* sumd2_ptr;
+public:
+	Mul(Expression* sumd1, Expression* sumd2) : sumd1_ptr(sumd1), sumd2_ptr(sumd2)
+	{}
+	~Mul()
+	{
+		delete sumd1_ptr;
+		delete sumd2_ptr;
+	}
+	Expression* diff()
+	{
+		Add* diff_mul = new Add(new Mul(sumd1_ptr->diff(), sumd2_ptr), new Mul(sumd1_ptr, sumd2_ptr->diff()));
+		return diff_mul;
+	}
+	void print()
+	{
+		sumd1_ptr->print();
+		cout << "*";
+		sumd2_ptr->print();
+	}
+};
+
+class Div : public Expression
+{
+private:
+	Expression* sumd1_ptr;
+	Expression* sumd2_ptr;
+public:
+	Div(Expression* sumd1, Expression* sumd2) : sumd1_ptr(sumd1), sumd2_ptr(sumd2)
+	{}
+	~Div()
+	{
+		delete sumd1_ptr;
+		delete sumd2_ptr;
+	}
+	Expression* diff()
+	{
+		Div* diff_div = new Div(new Sub(new Mul(sumd1_ptr->diff(), sumd2_ptr), new Mul(sumd1_ptr, sumd2_ptr->diff())), new Mul(sumd2_ptr, sumd2_ptr));
+		return diff_div;
+	}
+	void print()
+	{
+		sumd1_ptr->print();
+		cout << "/";
+		sumd2_ptr->print();
+	}
+};
+
 class Number : public Expression
 {
 private:
 	int value;
 public:
-	Number(int val): value(val)
+	Number(int val) : value(val)
 	{}
 	Expression* diff()
 	{
@@ -84,7 +136,7 @@ class Variable : public Expression
 private:
 	char var;
 public:
-	Variable(char x): var(x)
+	Variable(char x) : var(x)
 	{}
 	Expression* diff()
 	{
@@ -111,6 +163,20 @@ int main()
 	ds->print();
 	delete s;
 	delete ds;
+	cout << "\n";
+
+	Expression* m = new Mul(new Variable('u'), new Variable('v'));
+	Expression* dm = m->diff();
+	dm->print();
+	delete m;
+	delete dm;
+	cout << "\n";
+
+	Expression* d = new Div(new Variable('u'), new Variable('v'));
+	Expression* dd = d->diff();
+	dd->print();
+	delete d;
+	delete dd;
 	cout << "\n";
 
 	return 0;
