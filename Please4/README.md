@@ -1,1 +1,1 @@
-### Мануал по QCustomPlot: 
+## Мануал по QCustomPlot: 
