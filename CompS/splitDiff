@@ -1,0 +1,27 @@
+const double N = (2+1)/;
+
+double splitDiff(double X[N], double Y[N], t):
+    double splitSum = 0
+    for(int j = 0; j < N; j++){
+        double denom = 1.0
+        for(int l = 0; l < N; l++){
+            if(l != j):
+                denom *= (X[j] - X[l])
+        }
+        splitSum += Y[j]/denom
+    }
+    return splitSum
+
+int main() {
+  double X[N];
+  double Y[N];
+  
+  for(int i = -1; i < 2; i+=0.1)
+  {
+    X  
+  }
+  
+  cout << splitDiff(X, Y, -1) << endl;
+  
+  return 0;
+}
