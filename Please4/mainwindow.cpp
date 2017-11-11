@@ -19,25 +19,20 @@ MainWindow::~MainWindow()
 
 double MainWindow::myF(double x)//Функция
 {
-    /*vector<double> Y(X.size());
-    for(int i = 0; i < X.size(); i++)
-    {
-      Y[i] = sin(X[i]);
-    }
-    return Y;*/
     return sin(x);
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    double a = -1; //Начало интервала по Ox
-    double b =  -0.5; //Конец интервала по Ox
+    double a = 1.0; //Начало интервала по Ox
+    double b =  6.28; //Конец интервала по Ox
     double h = 0.01; //Шаг
 
     int N=(b - a)/h + 2; //Количество точек
     QVector<double> X(N), Y(N), dY(N);
-    Expression* e = new Div(new Number(3.0), new Variable('x'));
-    Expression* de = e->diff();
+
+    Expression* e = new Div(new Number(3.0), new Variable('x')); // (3/x)
+    Expression* de = e->diff(); // (3/x)' = (-3/x^2)
 
     e->print();
     cout << "\n";
@@ -48,18 +43,21 @@ void MainWindow::on_pushButton_clicked()
     for (double t = a; t <= b; t += h)
     {
         X[i] = t;
-        Y[i] = e->evaluate(t);//Формула нашей функции
-        dY[i] = de->evaluate(t);//Формула диф.функции
+        Y[i] = e->evaluate(t); //Формула нашей функции
+        dY[i] = de->evaluate(t); //Формула диф.функции
         i++;
     }
+
+    delete e;
+    delete de;
 
     //-------ОТРИСОВКА-ГРАФИКОВ------------------
     ui->widget->clearGraphs();
 
     ui->widget->addGraph();
-    ui->widget->graph(0)->setPen(QPen(Qt::blue));
+    ui->widget->graph(0)->setPen(QPen(Qt::blue)); //График Функции
     ui->widget->addGraph();
-    ui->widget->graph(1)->setPen(QPen(Qt::red));
+    ui->widget->graph(1)->setPen(QPen(Qt::red)); //График Производной
 
     ui->widget->graph(0)->setData(X, Y);
     ui->widget->graph(1)->setData(X, dY);
@@ -75,8 +73,6 @@ void MainWindow::on_pushButton_clicked()
         if(dY[i] > maxY) maxY = dY[i];
     }
     ui->widget->yAxis->setRange(minY - 1, maxY + 1);
-    ui->widget->replot();
 
-    delete e;
-    delete de;
+    ui->widget->replot();
 }

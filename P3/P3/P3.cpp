@@ -151,21 +151,21 @@ public:
 
 int main()
 {
-	Expression* e = new Add(new Number(133), new Variable('x'));
+	Expression* e = new Add(new Number(1337), new Variable('x'));
 	Expression* de = e->diff();
 	de->print();
 	delete e;
 	delete de;
 	cout << "\n";
 
-	Expression* s = new Sub(new Variable('y'), new Number(323));
+	Expression* s = new Sub(new Variable('y'), new Number(1488));
 	Expression* ds = s->diff();
 	ds->print();
 	delete s;
 	delete ds;
 	cout << "\n";
 
-	Expression* m = new Mul(new Variable('u'), new Variable('v'));
+	Expression* m = new Mul(new Number(2), new Variable('u'));
 	Expression* dm = m->diff();
 	dm->print();
 	delete m;
