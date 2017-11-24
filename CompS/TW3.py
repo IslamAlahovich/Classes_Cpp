@@ -111,6 +111,7 @@ def Parab(a, b):
         x0, x1 = x1, x2
         x2 = x2 + z1
     return x2
+
 print(eazyE(-1, 2))
 print(Newton(-1, 2))
 print(Chord(-1, 2))
